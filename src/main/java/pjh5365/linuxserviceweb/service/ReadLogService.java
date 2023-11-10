@@ -11,9 +11,13 @@ public class ReadLogService {
         this.path = path;
     }
 
-    public String getLog(String fileName) throws IOException {
+    public StringBuilder getLog(String fileName) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path + fileName));
-        String line = bufferedReader.readLine();
-        return line;
+        StringBuilder sb = new StringBuilder();
+        String readLine;
+        while((readLine = bufferedReader.readLine()) != null) {   // 파일의 끝까지 읽기
+            sb.append(readLine).append("\n");
+        }
+        return sb;
     }
 }

@@ -15,8 +15,10 @@ public class ReadLogServiceTest {
         // Given
         ReadLogService readLogService = new ReadLogService("/Users/parkjihyeok/serviceTest/");
         // When
-        String test = readLogService.getLog("testLog.txt");
+        StringBuilder test = readLogService.getLog("testLog.txt");
         // Then
-        assertEquals(test, "Test log!!");
+        StringBuilder sb = new StringBuilder();
+        sb.append("안녕하세요\n").append("반가워요\n");
+        assertEquals(sb.toString(), test.toString());
     }
 }
