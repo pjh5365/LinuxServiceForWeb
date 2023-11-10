@@ -1,15 +1,15 @@
 package pjh5365.linuxserviceweb.service;
 
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+@Service
 public class ReadLogService {
 
-    private final String path;
-    public ReadLogService(String path) {
-        this.path = path;
-    }
+    private final String path = "/Users/parkjihyeok/serviceTest/";
 
     public StringBuilder getLog(String fileName) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path + fileName));
