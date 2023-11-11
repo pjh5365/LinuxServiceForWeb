@@ -12,7 +12,7 @@ import java.io.IOException;
 public class MainController {
 
     private final ReadLogService readLogService;
-    private String fileName = "testLog.txt";
+    private String fileName = "access.log";
 
     @Autowired
     public MainController(ReadLogService readLogService) {
@@ -21,9 +21,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(ModelMap model) throws IOException {
-        StringBuilder sb = readLogService.getLog(fileName);    // 빌더로 파일을 읽어온 후
-        String[] lines = sb.toString().split("\n"); // 배열로 한줄로 저장하여
-        model.addAttribute("logs", lines);  // 타임리프로 보낸다.
+        model = readLogService.getLog(fileName);    // 빌더로 파일을 읽어온 후
         return "index";
     }
 }
