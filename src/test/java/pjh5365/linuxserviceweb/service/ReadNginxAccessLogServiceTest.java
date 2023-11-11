@@ -13,7 +13,7 @@ public class ReadLogServiceTest {
     @DisplayName("로그파일을 정상적으로 불러 올 수 있는지 테스트")
     void ReadLogTest() throws IOException {
         // Given
-        ReadLogService readLogService = new ReadLogService();
+        ReadLogService readLogService = new ReadNginxAccessLogService("/Users/parkjihyeok/testLog/");
         // When
         StringBuilder test = readLogService.getLog("testLog.txt");
         // Then
