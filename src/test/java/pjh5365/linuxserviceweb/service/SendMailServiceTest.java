@@ -14,8 +14,9 @@ public class SendMailServiceTest {
         SendMailService mailService = new SendMailService();
         // When
         String to = "pjh5365@naver.com";
+        String title = "메일 전송테스트 제목입니다.";
         StringBuilder content = new StringBuilder("안녕하세요 메일 전송테스트입니다.");
         // Then
-        mailService.sendMail(to, content);
+        mailService.sendMail(to, title, content);
     }
 }
