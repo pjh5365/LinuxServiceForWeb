@@ -7,4 +7,6 @@ import java.io.IOException;
 public interface ReadLogService {
     
     Log[] getLog(String fileName) throws IOException;
+
+    StringBuilder copyLog(String copyPath) throws IOException;
 }

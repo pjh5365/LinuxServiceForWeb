@@ -1,11 +1,12 @@
 package pjh5365.linuxserviceweb.service;
 
 import org.springframework.stereotype.Service;
+import pjh5365.linuxserviceweb.log.Log;
 import pjh5365.linuxserviceweb.log.NginxAccessLog;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
 @Service
@@ -13,11 +14,13 @@ public class ReadNginxAccessLogService implements ReadLogService {
 
     private final String path = "/Users/parkjihyeok/testLog/";
 
+    private static StringBuilder fileReaderSb;  // 파일을 읽어온 내용을 StringBuilder 에 담아 copyLog 에서 사용하기 위해 static 으로 선언
+
     @Override
     public NginxAccessLog[] getLog(String fileName) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path + fileName));
 
-        StringBuilder fileReaderSb = new StringBuilder();   // 파일의 내용을 담을 빌더
+        fileReaderSb = new StringBuilder();   // 파일의 내용을 담을 빌더
 
         StringBuilder ipSb = new StringBuilder();   // 접속시도 아이피를 담을 빌더
         StringBuilder timeSb = new StringBuilder(); // 접속시각 정보를 담을 빌더
@@ -65,5 +68,19 @@ public class ReadNginxAccessLogService implements ReadLogService {
         }
 
         return logs;
+    }
+
+    @Override
+    public StringBuilder copyLog(String copyPath) throws IOException {
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
+        String fileName = now.format(formatter) + ".log";    // 로그는 현재 날짜를 파일명으로 하여 저장한다.
+
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + copyPath + fileName));
+
+        bufferedWriter.write(String.valueOf(fileReaderSb));
+        bufferedWriter.flush();
+
+        return fileReaderSb;
     }
 }
