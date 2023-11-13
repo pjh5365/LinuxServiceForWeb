@@ -20,7 +20,7 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-
+                    
                 </div>
             </form>
             <!-- Navbar-->
@@ -72,12 +72,12 @@
                                     </div>
                                 </nav>
                             </div>
-
+                            
                             <a class="nav-link" href="/sendmail">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></div>
                                 메일 전송
                             </a>
-
+                            
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -89,26 +89,27 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">로그</h1>
+                        <h1 class="mt-4">메일 전송</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Nginx</li>
+                            <li class="breadcrumb-item active">메일을 받을 사람과 내용을 입력해주세요. 해당 정보는 익명으로 전달됩니다.</li>
                         </ol>
-                        <table class="table table-hover">
-                            <tr class="table-primary">
-                                <th>접속아이피</th>
-                                <th>접속시간</th>
-                                <th>HTTP 요청 정보</th>
-                                <th>응답 상태</th>
-                                <th>클라이언트 정보</th>
-                            </tr>
-                            <tr th:each="log : ${logs}">
-                                <th th:text="${log.ip}"></th>
-                                <th th:text="${log.time}"></th>
-                                <th th:text="${log.http}"></th>
-                                <th th:text="${log.status}"></th>
-                                <th th:text="${log.client}"></th>
-                            </tr>
-                        </table>
+                        <form action="/sendmail/send" method="post">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">받는 사람</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="to" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput2" class="form-label">제목</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="제목" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">내용</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="내용" name="content" required></textarea>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <input type="submit" value="전송" class="btn btn-primary">
+                            </div>
+                        </form>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
