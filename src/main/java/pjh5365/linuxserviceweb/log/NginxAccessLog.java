@@ -4,11 +4,14 @@ import lombok.Getter;
 
 @Getter
 public class NginxAccessLog implements Log {
-    private final String ip;
-    private final String time;
-    private final String http;
-    private final String status;
-    private final String client;
+    private String ip = "";
+    private String time = "";
+    private String http = "";
+    private String status = "";
+    private String client = "";
+
+    public NginxAccessLog() {
+    }
 
     public NginxAccessLog(String ip, String time, String http, String status, String client) {
         this.ip = ip;
