@@ -12,7 +12,9 @@ import java.util.StringTokenizer;
 @Service
 public class ReadNginxAccessLogService implements ReadLogService {
 
-    private final String path = "/Users/parkjihyeok/testLog/";
+    private final String path = "/var/log/nginx/";
+    private final String copyPath = "/home/pibber/copy/nginx/access/";
+    private final String mailPath = "/home/pibber/copy/";
 
     private static StringBuilder fileReaderSb;  // 파일을 읽어온 내용을 StringBuilder 에 담아 copyLog 에서 사용하기 위해 static 으로 선언
 
@@ -82,5 +84,34 @@ public class ReadNginxAccessLogService implements ReadLogService {
         bufferedWriter.flush();
 
         return fileReaderSb;
+    }
+
+    @Override
+    public void sendLog() throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(mailPath + "sendmaillog.sh"));
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
+        String fileName = now.format(formatter) + ".log";    // 전송할 로그는 현재 날짜로 이름을 가지고 있다.
+
+        bufferedWriter.write("recipient=\"pjh5365@naver.com.com\"\n" +
+                "\n" +
+                "subject=\"" + now.format(formatter) + "\"\n" +
+                "\n" +
+                "body=\"첨부파일 참고\"\n" +
+                "\n" +
+                "attachment_path=\"/home/pibber/copy/sendmaillog.txt\"\n" +
+                "\n" +
+                "(cat <<EOL\n" +
+                "To: $recipient\n" +
+                "Subject: $subject\n" +
+                "\n" +
+                "$body\n" +
+                "EOL\n" +
+                "uuencode \"$attachment_path\" \"$(basename \"$attachment_path\")\") | sendmail -t");
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+
+        String[] cmd = {"/bin/sh", "-c", "." +mailPath + "sendmaillog.sh"};
+        Runtime.getRuntime().exec(cmd);
     }
 }

@@ -9,4 +9,6 @@ public interface ReadLogService {
     Log[] getLog(String fileName) throws IOException;
 
     StringBuilder copyLog(String copyPath) throws IOException;
+
+    void sendLog() throws IOException;
 }
