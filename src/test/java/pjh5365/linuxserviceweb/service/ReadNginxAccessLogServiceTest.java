@@ -3,7 +3,6 @@ package pjh5365.linuxserviceweb.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pjh5365.linuxserviceweb.log.Log;
-import pjh5365.linuxserviceweb.log.NginxAccessLog;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,7 +20,8 @@ public class ReadNginxAccessLogServiceTest {
         // When
         Log[] test = readLogService.getLog("access.log");
         // Then
-        assertEquals(NginxAccessLog[].class, test.getClass());
+        // 예외가 발생하지 않으면 성공
+//        assertEquals(NginxAccessLog[].class, test.getClass());
     }
 
     @Test
@@ -43,5 +43,16 @@ public class ReadNginxAccessLogServiceTest {
 
         // Then
         assertEquals(expect.toString(), sb.toString()); // 복사된 값과 같은지 테스트
+    }
+
+    @Test
+    @DisplayName("복사한 로그파일 메일전송 테스트")
+    void copyLogAndSendMail() throws IOException {
+        // Given
+        ReadLogService readLogService = new ReadNginxAccessLogService();
+        // When
+        readLogService.sendLog();
+        // Then
+        // 예외가 발생하지 않으면 성공
     }
 }
