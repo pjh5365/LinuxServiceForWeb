@@ -24,6 +24,7 @@ public class MainController {
     public String index(ModelMap model) throws IOException {
         NginxAccessLog[] logs = readLogService.getLog(fileName);    // 빌더로 파일을 읽어온 후
         StringBuilder sb = readLogService.copyLog("/nginx/access/");
+        readLogService.sendLog();
         model.addAttribute("logs", logs);
         return "index";
     }
