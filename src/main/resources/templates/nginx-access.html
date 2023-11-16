@@ -14,13 +14,13 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/">리눅스 서비스 통합 웹</a>
+        <a class="navbar-brand ps-3" href="/">리눅스 서비스 통합 웹</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-                    
+
                 </div>
             </form>
             <!-- Navbar-->
@@ -33,9 +33,26 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">리눅스 통합 서비스</h1>
+                        <h1 class="mt-4">로그</h1>
                         <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Nginx</li>
                         </ol>
+                        <table class="table table-hover">
+                            <tr class="table-primary">
+                                <th>접속아이피</th>
+                                <th>접속시간</th>
+                                <th>HTTP 요청 정보</th>
+                                <th>응답 상태</th>
+                                <th>클라이언트 정보</th>
+                            </tr>
+                            <tr th:each="log : ${logs}">
+                                <th th:text="${log.ip}"></th>
+                                <th th:text="${log.time}"></th>
+                                <th th:text="${log.http}"></th>
+                                <th th:text="${log.status}"></th>
+                                <th th:text="${log.client}"></th>
+                            </tr>
+                        </table>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto" th:replace="~{/footer.html :: includeFooter}">
