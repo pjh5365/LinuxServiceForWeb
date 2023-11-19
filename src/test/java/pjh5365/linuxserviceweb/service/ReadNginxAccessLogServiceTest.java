@@ -18,7 +18,7 @@ public class ReadNginxAccessLogServiceTest {
         // Given
         ReadLogService readLogService = new ReadNginxAccessLogService();
         // When
-        Log[] test = readLogService.getLog();
+        Log[] test = readLogService.loadLog();
         // Then
         // 예외가 발생하지 않으면 성공
     }
@@ -30,7 +30,7 @@ public class ReadNginxAccessLogServiceTest {
         // Given
         ReadLogService readLogService = new ReadNginxAccessLogService();
         String path = "/Users/parkjihyeok/testLog/access.log";  // 원래 로그파일의 경로
-        readLogService.getLog();    // getLog 를 한번 호출해야 빌더에 값이 들어가므로 호출
+        readLogService.loadLog();    // getLog 를 한번 호출해야 빌더에 값이 들어가므로 호출
 
         // When
         BufferedReader br = new BufferedReader(new FileReader(path));   // 원래 로그를 읽어서

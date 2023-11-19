@@ -8,7 +8,7 @@ import pjh5365.linuxserviceweb.domain.mail.Mail;
 public class ReadNginxAccessLogService implements ReadLogService {
 
     @Override
-    public NginxAccessLog[] getLog() {
+    public NginxAccessLog[] loadLog() {
         return NginxAccessLog.loadLog();
     }
 

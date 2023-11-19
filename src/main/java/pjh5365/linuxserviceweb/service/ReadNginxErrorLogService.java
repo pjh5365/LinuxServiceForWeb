@@ -8,7 +8,7 @@ import pjh5365.linuxserviceweb.domain.mail.Mail;
 public class ReadNginxErrorLogService implements ReadLogService {
 
     @Override
-    public NginxErrorLog[] getLog() {
+    public NginxErrorLog[] loadLog() {
         return NginxErrorLog.loadLog();
     }
 

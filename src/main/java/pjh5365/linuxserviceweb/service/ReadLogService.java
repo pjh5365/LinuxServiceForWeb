@@ -4,7 +4,7 @@ import pjh5365.linuxserviceweb.domain.log.Log;
 
 public interface ReadLogService {
 
-    Log[] getLog();
+    Log[] loadLog();
 
     void copyLog();
 
