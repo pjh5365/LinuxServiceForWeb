@@ -3,7 +3,7 @@ package pjh5365.linuxserviceweb.service;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pjh5365.linuxserviceweb.log.Log;
+import pjh5365.linuxserviceweb.domain.log.Log;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

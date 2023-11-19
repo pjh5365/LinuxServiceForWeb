@@ -1,4 +1,4 @@
-package pjh5365.linuxserviceweb.log;
+package pjh5365.linuxserviceweb.domain.log;
 
 import lombok.Getter;
 
