@@ -1,10 +1,10 @@
 package pjh5365.linuxserviceweb.service;
 
-import pjh5365.linuxserviceweb.domain.log.NginxAccessLog;
+import pjh5365.linuxserviceweb.domain.log.Log;
 
 public interface ReadLogService {
 
-    NginxAccessLog[] getLog();
+    Log[] getLog();
 
     void copyLog();
 
