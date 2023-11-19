@@ -2,7 +2,8 @@ package pjh5365.linuxserviceweb.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pjh5365.linuxserviceweb.log.NginxAccessLog;
+import pjh5365.linuxserviceweb.domain.log.NginxAccessLog;
+import pjh5365.linuxserviceweb.domain.mail.Mail;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -111,37 +112,10 @@ public class ReadNginxAccessLogService implements ReadLogService {
 
     @Override
     public void sendLog() {
-        String mailPath = "/home/pibber/log/";  // 실행될 스크립트의 경로
+        String title = "nginx access.log 파일 백업";
+        String logFilePath = "/home/pibber/log/nginx/access/";
 
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
-        String fileName = now.format(formatter) + ".log";    // 전송할 로그는 현재 날짜로 이름을 가지고 있다.
-
-        try {
-            bufferedWriter = new BufferedWriter(new FileWriter(mailPath + "sendmail.sh"));  // 스크립트 파일 작성
-            bufferedWriter.write("recipient=\"pjh5365@naver.com\"\n" +
-                    "subject=\"" + now.format(formatter) + " nginx access.log 파일\" \n" +
-                    "body=\"첨부파일 참고\"\n" +
-                    "attachment=\"/home/pibber/log/nginx/access/" + fileName + "\"\n" +
-                    "\n" +
-                    "# mutt 명령을 사용하여 이메일 보내기\n" +
-                    "mutt -s \"$subject\" -a \"$attachment\" -- \"$recipient\" <<EOL\n" +
-                    "$body\n" +
-                    "EOL\n");
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-        } catch (IOException e) {
-            //TODO: 2023/11/14 예외처리하기
-            throw new RuntimeException(e);
-        }
-
-        //TODO: 2023/11/14 예외처리하기
-        String[] cmd = {"/bin/sh", "-c", "sh " + mailPath + "sendmail.sh"}; // 스크립트 파일을 실행하기 위한 코드
-        try {
-            Runtime.getRuntime().exec(cmd); // 스크립트 파일 실행
-        } catch (IOException e) {
-            log.error("메일전송에 실패했습니다.");
-            throw new RuntimeException(e);
-        }
+        Mail mail = new Mail();
+        mail.sendLogMail(title, logFilePath);
     }
 }
