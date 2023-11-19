@@ -11,6 +11,7 @@ public class SendMailService {
     private String path = "/home/pibber/sendmail/";
     private String mailFile = "mail.txt";
     public void sendMail(String to, String title, StringBuilder content) {
+        //TODO: 2023/11/19 예외처리하기
         Mail mail = new Mail();
         mail.sendNormalMail(to, title, content, path, mailFile);
     }
