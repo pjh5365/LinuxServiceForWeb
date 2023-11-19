@@ -24,11 +24,11 @@
                 </div>
             </form>
             <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" th:replace="~{/navbar.html :: includeNavbar}">
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" th:replace="~{navbar.html :: includeNavbar}">
             </ul>
         </nav>
         <div id="layoutSidenav">
-            <div id="layoutSidenav_nav" th:replace="~{/sidebar.html :: includeSidebar}">
+            <div id="layoutSidenav_nav" th:replace="~{sidebar.html :: includeSidebar}">
             </div>
             <div id="layoutSidenav_content">
                 <main>
@@ -53,7 +53,7 @@
                         </form>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto" th:replace="~{/footer.html :: includeFooter}">
+                <footer class="py-4 bg-light mt-auto" th:replace="~{footer.html :: includeFooter}">
 
                 </footer>
             </div>
