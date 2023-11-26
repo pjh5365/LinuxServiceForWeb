@@ -1,5 +1,6 @@
 package pjh5365.linuxserviceweb.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +13,7 @@ import pjh5365.linuxserviceweb.service.ReadMessagesLogService;
 import pjh5365.linuxserviceweb.service.ReadNginxAccessLogService;
 import pjh5365.linuxserviceweb.service.ReadNginxErrorLogService;
 
+@Slf4j
 @Controller
 @RequestMapping("/log")
 public class LogController {
@@ -29,49 +31,109 @@ public class LogController {
     }
 
     @GetMapping("/nginx/access")
-    public String nginxAccessLog(ModelMap model) {
-        try{    // 파일을 불러오지 못하는 경우를 대비하여 예외처리하기
+    public String nginxAccessLog(ModelMap map) {
+        try{
             NginxAccessLog[] logs = accessLogService.loadLog();    // 읽어온 파일들을 ModelMap 에 넣어 전달하기
-
-            //TODO: 2023/11/14 로그 복사와 전송 기능 분리하기
-            accessLogService.copyLog();   // 로그 복사하기
-            accessLogService.sendLog();   // 복사한 로그 메일로 전송하기
-
-            model.addAttribute("logs", logs);
+            map.addAttribute("logs", logs);
             return "nginx-access";
         } catch (RuntimeException e) {
-            //TODO: 2023/11/14 파일을 불러오는데 실패하면 띄울 페이지 만들어서 이동시키기
-            return "index";
+            map.addAttribute("msg", "파일불러오는데 실패하여 메인페이지로 이동합니다.");
+            log.error("파일을 불러오는데 실패했습니다. : {}", e.getMessage());
+            return "pageAction";
         }
     }
 
     @GetMapping("/nginx/error")
-    public String nginxErrorLog(ModelMap model) {
+    public String nginxErrorLog(ModelMap map) {
         try {
             NginxErrorLog[] logs = errorLogService.loadLog();
-
-            errorLogService.copyLog();
-            errorLogService.sendLog();
-
-            model.addAttribute("logs", logs);
+            map.addAttribute("logs", logs);
             return "nginx-error";
         } catch (RuntimeException e) {
-            return "index";
+            map.addAttribute("msg", "파일불러오는데 실패하여 메인페이지로 이동합니다.");
+            log.error("파일을 불러오는데 실패했습니다. : {}", e.getMessage());
+            return "pageAction";
         }
     }
 
     @GetMapping("/messages")
-    public String messagesLog(ModelMap model) {
+    public String messagesLog(ModelMap map) {
         try {
             MessagesLog[] logs = messagesLogService.loadLog();
-
-            messagesLogService.copyLog();
-            messagesLogService.sendLog();
-
-            model.addAttribute("logs", logs);
+            map.addAttribute("logs", logs);
             return "messages";
         } catch (RuntimeException e) {
-            return "index";
+            map.addAttribute("msg", "파일불러오는데 실패하여 메인페이지로 이동합니다.");
+            log.error("파일을 불러오는데 실패했습니다. : {}", e.getMessage());
+            return "pageAction";
         }
+    }
+
+    @GetMapping("/nginx/access/copy")
+    public String copyNginxAccess(ModelMap map) {
+        try {
+            accessLogService.copyLog();
+            map.addAttribute("msg", "파일백업에 성공하였습니다.");
+        } catch (RuntimeException e) {
+            map.addAttribute("msg", "파일백업에 실패하여 메인페이지로 이동합니다.");
+            log.error("파일백업에 실패했습니다. : {}", e.getMessage());
+        }
+        return "pageAction";
+    }
+    @GetMapping("/nginx/error/copy")
+    public String copyNginxError(ModelMap map) {
+        try {
+            errorLogService.copyLog();
+            map.addAttribute("msg", "파일백업에 성공하였습니다.");
+        } catch (RuntimeException e) {
+            map.addAttribute("msg", "파일백업에 실패하여 메인페이지로 이동합니다.");
+            log.error("파일백업에 실패했습니다. : {}", e.getMessage());
+        }
+        return "pageAction";
+    }
+    @GetMapping("/messages/copy")
+    public String copyMessages(ModelMap map) {
+        try {
+            messagesLogService.copyLog();
+            map.addAttribute("msg", "파일백업에 성공하였습니다.");
+        } catch (RuntimeException e) {
+            map.addAttribute("msg", "파일백업에 실패하여 메인페이지로 이동합니다.");
+            log.error("파일백업에 실패했습니다. : {}", e.getMessage());
+        }
+        return "pageAction";
+    }
+
+    @GetMapping("/nginx/access/send")
+    public String sendNginxAccess(ModelMap map) {
+        try {
+            accessLogService.sendLog();
+            map.addAttribute("msg", "파일전송에 성공하였습니다.");
+        } catch (RuntimeException e) {
+            map.addAttribute("msg", "파일전송에 실패하여 메인페이지로 이동합니다.");
+            log.error("파일전송에 실패했습니다. {}", e.getMessage());
+        }
+        return "pageAction";
+    }
+    @GetMapping("/nginx/error/send")
+    public String sendNginxError(ModelMap map) {
+        try {
+            errorLogService.sendLog();
+            map.addAttribute("msg", "파일전송에 성공하였습니다.");
+        } catch (RuntimeException e) {
+            map.addAttribute("msg", "파일전송에 실패하여 메인페이지로 이동합니다.");
+            log.error("파일전송에 실패했습니다. {}", e.getMessage());
+        }
+        return "pageAction";
+    }
+    @GetMapping("/messages/send")
+    public String sendMessages(ModelMap map) {
+        try {
+            messagesLogService.sendLog();
+            map.addAttribute("msg", "파일전송에 성공하였습니다.");
+        } catch (RuntimeException e) {
+            map.addAttribute("msg", "파일전송에 실패하여 메인페이지로 이동합니다.");
+            log.error("파일전송에 실패했습니다. {}", e.getMessage());
+        }
+        return "pageAction";
     }
 }

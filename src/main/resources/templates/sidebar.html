@@ -19,12 +19,24 @@
                         <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/log/nginx/access">access.log</a>
+                                <a class="nav-link" href="/log/nginx/access/copy">access.log 백업</a>
+                                <a class="nav-link" href="/log/nginx/access/send">access.log 전송</a>
                                 <a class="nav-link" href="/log/nginx/error">error.log</a>
+                                <a class="nav-link" href="/log/nginx/error/copy">error.log 백업</a>
+                                <a class="nav-link" href="/log/nginx/error/send">error.log 전송</a>
                             </nav>
                         </div>
-                        <a class="nav-link" href="/log/messages">messages</a>
-                        <a class="nav-link" href="/log/backup-all-log">로그전체백업</a>
-                        <a class="nav-link" href="/log/send-all-log">로그전체전송</a>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth2" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                            messages
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseAuth2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/log/messages">messages</a>
+                                <a class="nav-link" href="/log/messages/copy">messages 백업</a>
+                                <a class="nav-link" href="/log/messages/send">messages 전송</a>
+                            </nav>
+                        </div>
                     </nav>
                 </div>
 

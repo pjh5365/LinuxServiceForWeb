@@ -11,7 +11,7 @@ public class SendMailServiceTest {
     @Test
     @DisplayName("메일전송 테스트")
     @Disabled   // 경로가 달라 테스트가 불가능하기 때문에 비활성화
-    void sendMailTest() throws IOException {
+    void sendMailTest() throws Exception {
         // Given
         SendMailService mailService = new SendMailService();
         // When
