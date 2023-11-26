@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Mail {
+public class MailDto {
     private String to;
     private String title;
     private StringBuilder content;

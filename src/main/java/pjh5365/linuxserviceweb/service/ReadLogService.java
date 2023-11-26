@@ -1,14 +1,12 @@
 package pjh5365.linuxserviceweb.service;
 
-import pjh5365.linuxserviceweb.log.Log;
-
-import java.io.IOException;
+import pjh5365.linuxserviceweb.domain.log.Log;
 
 public interface ReadLogService {
-    
-    Log[] getLog(String fileName) throws IOException;
 
-    StringBuilder copyLog(String copyPath) throws IOException;
+    Log[] loadLog();
 
-    void sendLog() throws IOException;
+    void copyLog();
+
+    void sendLog();
 }
