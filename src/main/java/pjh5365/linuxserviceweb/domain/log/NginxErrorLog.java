@@ -64,7 +64,7 @@ public class NginxErrorLog extends Log {
         logs[0] = new NginxErrorLog();
         StringBuilder fileReader = NginxErrorLog.getLog();
 
-        if(fileReader != null) {  // 파일에 내용이 존재한다면
+        if(!fileReader.isEmpty()) {  // 파일에 내용이 존재한다면
             String[] lines = fileReader.toString().split("\n"); // 파일을 읽은 내용을 배열로 한줄씩 저장
 
             for (int i = lines.length - 1; i >= 0; i--) {    // 읽은 내용을 뒤에서부터 담아 최신내용을 먼저 보여주게 하기
