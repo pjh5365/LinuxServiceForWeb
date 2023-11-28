@@ -1,15 +1,24 @@
 package pjh5365.linuxserviceweb.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import pjh5365.linuxserviceweb.handler.CustomAuthenticationFailure;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final CustomAuthenticationFailure customAuthenticationFailure;
+
+    @Autowired
+    public SecurityConfig(CustomAuthenticationFailure customAuthenticationFailure) {
+        this.customAuthenticationFailure = customAuthenticationFailure;
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -29,8 +38,10 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 비활성화
 
         http.formLogin((auth) -> auth
-                .loginPage("/login")
-                .loginProcessingUrl("/loginProc")
+                        .loginPage("/login")
+                        .loginProcessingUrl("/loginProc")
+                        .failureHandler(customAuthenticationFailure)
+                        .defaultSuccessUrl("/")
         );
 
         return http.build();
