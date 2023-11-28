@@ -46,6 +46,9 @@
                                 <input class="form-control" id="inputPassword" name="password" type="password" />
                                 <label for="inputPassword">비밀번호</label>
                             </div>
+                            <span th:if="${error}">
+                                <p id="valid" class="alert alert-danger" th:text="${exception}"></p>
+                            </span>
                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                 <a class="small" href="/register">회원가입</a>
                                 <input class="btn btn-primary" type="submit" value="로그인" />

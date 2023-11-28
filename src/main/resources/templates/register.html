@@ -37,7 +37,7 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">회원가입</li>
                         </ol>
-                        <form action="/registerProc" method="post">
+                        <form action="/register" method="post">
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="inputName" name="name" type="text" />
                                 <label for="inputName">이름</label>
@@ -50,6 +50,9 @@
                                 <input class="form-control" id="inputPassword" name="password" type="password" />
                                 <label for="inputPassword">비밀번호</label>
                             </div>
+                            <span th:if="${error}">
+                                <p id="valid" class="alert alert-danger" th:text="${msg}"></p>
+                            </span>
                             <div class="mt-4 mb-0">
                                 <div class="d-grid"><input class="btn btn-primary btn-block" type="submit" value="회원가입" /></div>
                             </div>
