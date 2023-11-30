@@ -43,6 +43,7 @@
                                 <th>접속시간</th>
                                 <th>HTTP 요청 정보</th>
                                 <th>응답 상태</th>
+                                <th>요청 주소</th>
                                 <th>클라이언트 정보</th>
                             </tr>
                             <tr th:each="log : ${logs}">
@@ -50,6 +51,7 @@
                                 <th th:text="${log.time}"></th>
                                 <th th:text="${log.http}"></th>
                                 <th th:text="${log.status}"></th>
+                                <th th:text="${log.request}"></th>
                                 <th th:text="${log.client}"></th>
                             </tr>
                         </table>
