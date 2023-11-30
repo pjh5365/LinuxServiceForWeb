@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/securityTest
+    url: jdbc:mariadb://localhost:3306/board
     username: pibber
     password: wjsansrk
     driver-class-name: org.mariadb.jdbc.Driver
