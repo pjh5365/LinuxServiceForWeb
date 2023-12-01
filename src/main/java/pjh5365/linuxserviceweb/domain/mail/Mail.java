@@ -11,7 +11,9 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class Mail {
 
-    public void sendNormalMail(String to, String title, StringBuilder content ,String path, String mailFile) {
+    private String to;
+
+    public void sendNormalMail(String to, String title, StringBuilder content , String path, String mailFile) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + mailFile));    // 메일을 보내기전에 보낼 내용을 다른 파일에 미리 저장하고
             bufferedWriter.write("To: " + to);
@@ -35,7 +37,7 @@ public class Mail {
         }
     }
 
-    public void sendLogMail(String title, String logFilePath) {
+    public void sendLogMail(String to, String title, String logFilePath) {
         String mailPath = "/home/pibber/log/";  // 실행될 스크립트의 경로
 
         LocalDate now = LocalDate.now();
@@ -44,7 +46,7 @@ public class Mail {
 
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(mailPath + "sendmail.sh"));  // 스크립트 파일 작성
-            bufferedWriter.write("recipient=\"pjh5365@naver.com\"\n" +
+            bufferedWriter.write("recipient=\"" + to + "\"\n" +
                     "subject=\"" + now.format(formatter) + " " + title + "\" \n" +    // 전송될 메일의 제목을 외부로부터 주입받아 사용
                     "body=\"첨부파일 참고\"\n" +
                     "attachment=\"" + logFilePath + fileName + "\"\n" + // 첨부파일의 경로를 주입받아 사용
