@@ -43,6 +43,7 @@
                                 <th>접속시간</th>
                                 <th>HTTP 요청 정보</th>
                                 <th>응답 상태</th>
+                                <th>요청 주소</th>
                                 <th>클라이언트 정보</th>
                             </tr>
                             <tr th:each="log : ${logs}">
@@ -50,6 +51,7 @@
                                 <th th:text="${log.time}"></th>
                                 <th th:text="${log.http}"></th>
                                 <th th:text="${log.status}"></th>
+                                <th th:text="${log.request}"></th>
                                 <th th:text="${log.client}"></th>
                             </tr>
                         </table>
@@ -62,10 +64,5 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
     </body>
 </html>

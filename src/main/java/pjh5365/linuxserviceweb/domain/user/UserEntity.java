@@ -15,6 +15,7 @@ public class UserEntity {
 
     private String username;
     private String name;
+    private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)    // enum 을 데이터베이스에 저장하기 위한 어노테이션

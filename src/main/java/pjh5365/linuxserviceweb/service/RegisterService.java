@@ -22,13 +22,14 @@ public class RegisterService {
 
     public boolean register(RegisterDto data) {
         UserEntity userEntity = new UserEntity();
-        boolean isRegistered =  userRepository.existsByUsername(data.getUsername());
+        boolean isRegistered =  userRepository.existsByUsername(data.getUsername()) && userRepository.existsByEmail(data.getEmail());
 
         if(isRegistered)    // 회원정보가 이미 존재한다면
             return false;
 
         userEntity.setName(data.getName());
         userEntity.setUsername(data.getUsername());
+        userEntity.setEmail(data.getEmail());
         userEntity.setPassword(bCryptPasswordEncoder.encode(data.getPassword()));
         userEntity.setRole(UserRole.ROLE_USER);
 
