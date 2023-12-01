@@ -37,14 +37,18 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">로그인</li>
                         </ol>
-                        <form action="/loginProc" method="post">
+                        <form method="post" th:action="${secondaryAuth} ? '/loginProc' : '/secondaryAuth'">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="inputId" name="username" type="text" required />
+                                <input class="form-control" id="inputId" name="username" type="text" required th:value="${secondaryAuth} ? ${username} : ''" />
                                 <label for="inputId">아이디</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="inputPassword" name="password" type="password" required />
+                                <input class="form-control" id="inputPassword" name="password" type="password" required th:value="${secondaryAuth} ? ${password} : ''" />
                                 <label for="inputPassword">비밀번호</label>
+                            </div>
+                            <div class="form-floating mb-3" th:if="${secondaryAuth}">   <!-- 2차 인증을 요청하는 경우 -->
+                                <input class="form-control" id="email-auth" name="email-auth" type="text" required  />
+                                <label for="email-auth">이메일 인증번호</label>
                             </div>
                             <span th:if="${error}">
                                 <p id="valid" class="alert alert-danger" th:text="${exception}"></p>

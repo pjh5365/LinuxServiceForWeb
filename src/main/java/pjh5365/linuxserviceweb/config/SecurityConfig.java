@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/login", "/register", "/registerProc", "/css/**", "/js/**").permitAll()   // 메인화면, 로그인, 회원가입, css, js 에 대한 요청은 누구나
+                        .requestMatchers("/", "/login","/secondaryAuth", "/register", "/registerProc", "/css/**", "/js/**").permitAll()   // 메인화면, 로그인, 회원가입, css, js 에 대한 요청은 누구나
                         .requestMatchers("/log/**").hasRole("ADMIN")    // 로그에 관련된 요청들은 ADMIN 권한만 허용
                         .anyRequest().authenticated()   // 나머지 요청은 로그인한 사용자들만
                 );
