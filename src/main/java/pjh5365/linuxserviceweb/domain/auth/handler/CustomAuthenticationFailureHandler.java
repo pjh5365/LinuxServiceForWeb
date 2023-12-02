@@ -1,4 +1,4 @@
-package pjh5365.linuxserviceweb.handler;
+package pjh5365.linuxserviceweb.domain.auth.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package pjh5365.linuxserviceweb.service;
+package pjh5365.linuxserviceweb.domain.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pjh5365.linuxserviceweb.domain.user.UserEntity;
-import pjh5365.linuxserviceweb.dto.CustomUserDetails;
+import pjh5365.linuxserviceweb.domain.auth.CustomUserDetails;
 import pjh5365.linuxserviceweb.repository.UserRepository;
 
 @Slf4j
