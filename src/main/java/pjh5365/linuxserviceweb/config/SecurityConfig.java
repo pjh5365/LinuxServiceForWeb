@@ -3,12 +3,18 @@ package pjh5365.linuxserviceweb.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import pjh5365.linuxserviceweb.handler.CustomAuthenticationFailureHandler;
-import pjh5365.linuxserviceweb.handler.CustomAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pjh5365.linuxserviceweb.domain.auth.CustomAuthenticationProvider;
+import pjh5365.linuxserviceweb.domain.auth.filter.SecondaryAuthFilter;
+import pjh5365.linuxserviceweb.domain.auth.handler.CustomAuthenticationFailureHandler;
+import pjh5365.linuxserviceweb.domain.auth.handler.CustomAuthenticationSuccessHandler;
+import pjh5365.linuxserviceweb.domain.auth.service.SecondaryAuthService;
 
 @Configuration
 @EnableWebSecurity
@@ -16,16 +22,34 @@ public class SecurityConfig {
 
     private final CustomAuthenticationFailureHandler failureHandler;
     private final CustomAuthenticationSuccessHandler successHandler;
+    private final SecondaryAuthService secondaryAuthService;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     @Autowired
-    public SecurityConfig(CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationSuccessHandler successHandler) {
-        this.failureHandler = customAuthenticationFailureHandler;
+    public SecurityConfig(CustomAuthenticationFailureHandler failureHandler, CustomAuthenticationSuccessHandler successHandler, SecondaryAuthService secondaryAuthService, CustomAuthenticationProvider customAuthenticationProvider, AuthenticationConfiguration authenticationConfiguration) {
+        this.failureHandler = failureHandler;
         this.successHandler = successHandler;
+        this.secondaryAuthService = secondaryAuthService;
+        this.customAuthenticationProvider = customAuthenticationProvider;
+        this.authenticationConfiguration = authenticationConfiguration;
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        ProviderManager providerManager = (ProviderManager) authenticationConfiguration.getAuthenticationManager();
+        providerManager.getProviders().add(customAuthenticationProvider);
+        return providerManager;
+    }
+
+    @Bean
+    public SecondaryAuthFilter secondaryAuthFilter() throws Exception { // 로그인을 할 필터 빈으로 등록
+        SecondaryAuthFilter secondaryAuthFilter = new SecondaryAuthFilter(secondaryAuthService);
+        secondaryAuthFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+        secondaryAuthFilter.setAuthenticationFailureHandler(failureHandler);
+        secondaryAuthFilter.setAuthenticationSuccessHandler(successHandler);
+
+        return secondaryAuthFilter;
     }
 
     @Bean
@@ -41,15 +65,13 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 비활성화
 
         http.formLogin((auth) -> auth
-                .loginPage("/login")
-                .loginProcessingUrl("/loginProc")
-                .successHandler(successHandler)
-                .failureHandler(failureHandler)
-        );
+                .loginPage("/login"));
 
         http.logout((auth) -> auth
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/"));
+
+        http.addFilterBefore(secondaryAuthFilter(), UsernamePasswordAuthenticationFilter.class);    // 커스텀 필터를 부착해 로그인을 함
         return http.build();
     }
 }
