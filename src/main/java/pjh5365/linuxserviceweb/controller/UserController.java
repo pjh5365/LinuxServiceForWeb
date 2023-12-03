@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pjh5365.linuxserviceweb.domain.auth.service.SecondaryAuthService;
 import pjh5365.linuxserviceweb.domain.user.UserEntity;
 import pjh5365.linuxserviceweb.dto.RegisterDto;
 import pjh5365.linuxserviceweb.dto.UserDto;
@@ -24,15 +25,17 @@ public class UserController {
     private final RegisterService registerService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SecondaryAuthService secondaryAuthService;
 
     static Map<String, String > secondaryAuthMap;   // 1차 로그인에서 성공하면 1차 로그인 정보를 담을 맵
     static Map<String, String > errorMap;   // 1차 로그인에서 실패하면 해당 오류를 담을 맵
 
     @Autowired
-    public UserController(RegisterService registerService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(RegisterService registerService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, SecondaryAuthService secondaryAuthService) {
         this.registerService = registerService;
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.secondaryAuthService = secondaryAuthService;
         secondaryAuthMap = new HashMap<>(); // 빈으로 등록되면서 초기화
         secondaryAuthMap.put("status", "no");   // 초기화하며 최초 상태 설정
         errorMap = new HashMap<>(); // 빈으로 등록되면서 초기화
@@ -75,14 +78,20 @@ public class UserController {
         }
         else {
             UserEntity user = optionalUser.get();
-
             if(bCryptPasswordEncoder.matches(userDto.getPassword(), user.getPassword())) {  // 비밀번호가 맞다면
                 secondaryAuthMap.put("status", "ok");
                 secondaryAuthMap.put("secondaryAuth", "auth");
                 secondaryAuthMap.put("username", userDto.getUsername());
                 secondaryAuthMap.put("password", userDto.getPassword());
 
-                //TODO: 2023/12/1 인증번호 전송로직 추가
+                try {
+                    secondaryAuthService.sendSecondaryAuth(user.getEmail());
+                } catch (Exception e) {
+                    errorMap.put("status", "error");
+                    errorMap.put("error", "true");
+                    errorMap.put("exception", "2차 로그인에 필요한 인증코드를 전송하는데 실패했습니다.");
+                    secondaryAuthMap.put("status", "no");
+                }
             }
             else {  // 비밀번호가 틀렸다면
                 errorMap.put("status", "error");
