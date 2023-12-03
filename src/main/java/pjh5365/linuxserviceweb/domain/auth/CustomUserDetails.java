@@ -1,4 +1,4 @@
-package pjh5365.linuxserviceweb.dto;
+package pjh5365.linuxserviceweb.domain.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

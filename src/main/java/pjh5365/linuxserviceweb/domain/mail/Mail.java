@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class Mail {
 
-    private String to;
+//    private String to;
 
     public void sendNormalMail(String to, String title, StringBuilder content , String path, String mailFile) {
         try {
@@ -66,6 +66,35 @@ public class Mail {
             Runtime.getRuntime().exec(cmd); // 스크립트 파일 실행
         } catch (IOException e) {
             log.error("로그메일 전송 스크립트 실행에 실패해 메일을 전송하지 못했습니다. : {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendEmailAuth(String to, String code) { // 2차 인증코드를 전송하는 메서드
+        String path = "/home/pibber/sendmail/";
+        String mailFile = "emailAuthCode.txt";
+        StringBuilder content = new StringBuilder();
+        content.append("로그인을 위한 2차 인증번호입니다.").append("\n");
+        content.append(code);
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + mailFile));    // 메일을 보내기전에 보낼 내용을 다른 파일에 미리 저장하고
+            bufferedWriter.write("To: " + to);
+            bufferedWriter.newLine();
+            bufferedWriter.write("Subject: 로그인 2차 인증 번호");
+            bufferedWriter.newLine();
+            bufferedWriter.newLine();
+            bufferedWriter.write(String.valueOf(content));
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            log.error("메일 전송에 필요한 파일을 열지 못했습니다. : {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        String[] cmd = {"/bin/sh", "-c", "sendmail -t < " + path + mailFile};
+        try {
+            Runtime.getRuntime().exec(cmd);   // 저장된 파일을 이용해 메일을 전송한다.
+        } catch (IOException e) {
+            log.error("메일 전송 스크립트 실행에 실패해 메일을 전송하지 못했습니다. : {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
