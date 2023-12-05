@@ -1,8 +1,7 @@
 package pjh5365.linuxserviceweb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +29,10 @@ public class ChatController {
     }
 
     @GetMapping("/room/{roomId}")
-    public String getRoom(@PathVariable String roomId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String getRoom(@PathVariable String roomId, Model model) {
+
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());   // 로그인정보중 로그인명만 전달
         model.addAttribute("room", chatRoomRepository.findRoomById(roomId));
-        model.addAttribute("userDetails", userDetails);  // 시큐리티에서 사용자 정보받아 타임리프로 넘기기
         return "room";  // 개인 채팅방 리턴하기
     }
 

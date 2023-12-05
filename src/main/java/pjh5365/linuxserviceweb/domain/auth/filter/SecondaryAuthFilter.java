@@ -35,7 +35,6 @@ public class SecondaryAuthFilter extends AbstractAuthenticationProcessingFilter 
 
         UsernamePasswordAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(username.trim(), password);
         setDetails(request, authenticationToken);
-        System.out.println("필터 authenticationToken : " + authenticationToken);
         return getAuthenticationManager().authenticate(authenticationToken);
     }
     protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
