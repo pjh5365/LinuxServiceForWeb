@@ -59,7 +59,7 @@
         var chatBox = $('.chat_box');
         var messageInput = $('input[name="message"]');
         var sendBtn = $('#send');
-        var sender = /*[[${userDetails.getUsername()}]]*/ '';
+        var sender = /*[[${username}]]*/ '';
         var roomId = $('.content').data('room-id');
 
         var sock = new SockJS("/ws");
