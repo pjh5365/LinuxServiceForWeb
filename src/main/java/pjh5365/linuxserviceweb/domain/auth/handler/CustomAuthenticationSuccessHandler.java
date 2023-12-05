@@ -21,6 +21,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         // 로그인에 성공했으므로 세션등록
         HttpSession session = request.getSession();
         SecurityContext securityContext = SecurityContextHolder.getContext();
+        session.setMaxInactiveInterval(5 * 60);  // 아무동작도 하지않으면 세션은 5분 후 만료
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
         // 부모 클래스의 동작 호출 (기본적으로는 리다이렉션)
