@@ -37,7 +37,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div id="chat-container">
-                <div class="content" data-room-id="${room.roomId}">
+                <div class="content">
                     <h3 class="text-center" th:text="${room.roomName}"></h3>
                     <div id="chat-messages" class="mb-3"></div>
                     <ul class="chat_box">
@@ -45,7 +45,10 @@
                     <div class="input-group">
                         <input class="form-control" type="text" placeholder="채팅내용" name="message"/>
                         <button class="btn btn-primary" id="send">전송</button>
+                        <button class="btn btn-danger" id="quit">나가기</button>
                     </div>
+                    <button class="btn btn-danger" id="close" th:if="${username} == ${room.creator}">채팅방 삭제하기</button>  <!-- 생성자만 보이도록 -->
+
                 </div>
             </div>
         </main>
@@ -59,8 +62,10 @@
         var chatBox = $('.chat_box');
         var messageInput = $('input[name="message"]');
         var sendBtn = $('#send');
+        var quit = $('#quit');
+        var closeBtn = $('#close');
         var sender = /*[[${username}]]*/ '';
-        var roomId = $('.content').data('room-id');
+        var roomId = /*[[${room.roomId}]]*/ '';
 
         var sock = new SockJS("/ws");
         var client = Stomp.over(sock);
@@ -79,6 +84,25 @@
             var message = messageInput.val();
             client.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, sender: sender, message: message}));
             messageInput.val('');
+        });
+
+        quit.click(function () {
+            client.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, sender: sender, message: sender + " 님이 채팅을 종료했습니다."}));
+            client.unsubscribe();
+            client.disconnect();
+            window.location.href = '/chat/rooms';
+        });
+
+        closeBtn.click(function () {
+            client.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, sender: sender, message: sender + " 님이 채팅방을 삭제했습니다."}));
+            client.unsubscribe();
+            client.disconnect();
+
+            var request = new XMLHttpRequest();
+            request.open('DELETE', '/chat/room/'+roomId);
+            request.send();
+
+            window.location.href = '/chat/rooms';
         });
 
         // TODO 엔터키 이벤트 추가하기, 디자인 추가하기

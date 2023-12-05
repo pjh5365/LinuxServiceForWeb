@@ -26,9 +26,13 @@ public class ChatRoomRepository {
         return map.get(roomId);
     }
 
-    public ChatRoomDto createChatRoomDto(String roomName) { // 채팅방 생성
-        ChatRoomDto room = ChatRoomDto.createRoom(roomName);
+    public ChatRoomDto createChatRoomDto(String roomName, String creator) { // 채팅방 생성
+        ChatRoomDto room = ChatRoomDto.createRoom(roomName, creator);
         map.put(room.getRoomId(), room);
         return room;
+    }
+
+    public void DeleteRoomDto(String roomId) {  // 채팅방 삭제하기
+        map.remove(roomId);
     }
 }
