@@ -1,6 +1,7 @@
 package pjh5365.linuxserviceweb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +42,8 @@ public class ChatController {
         return "redirect:/chat/rooms";  // 채팅방 생성 후 채팅방 리스트로 이동
     }
 
-    @DeleteMapping("/room/{roomId}")
+    // DELETE 에 대한 처리가 로컬에서는 작동하지만 서버에서는 정상적으로 작동하지 않아 GET 방식으로 삭제하도록 수정함
+    @GetMapping("/room-d/{roomId}")
     public String deleteRoom(@PathVariable String roomId) {
         chatRoomRepository.DeleteRoomDto(roomId);
         return "redirect:/chat/rooms";  // 채팅방 목록으로 리다이렉션

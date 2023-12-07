@@ -97,12 +97,8 @@
             client.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, sender: sender, message: sender + " 님이 채팅방을 삭제했습니다."}));
             client.unsubscribe();
             client.disconnect();
-
-            var request = new XMLHttpRequest();
-            request.open('DELETE', '/chat/room/'+roomId);
-            request.send();
-
-            window.location.href = '/chat/rooms';
+            // DELETE 에 대한 처리가 로컬에서는 작동하지만 서버에서는 정상적으로 작동하지 않아 GET 방식으로 삭제하도록 수정함
+            window.location.href = '/chat/room-d/' + roomId;
         });
 
         // TODO 엔터키 이벤트 추가하기, 디자인 추가하기
