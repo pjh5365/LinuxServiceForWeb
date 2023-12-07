@@ -46,6 +46,9 @@
                                 <input class="form-control" id="inputPassword" name="password" type="password" required th:value="${secondaryAuth} ? ${password} : ''" />
                                 <label for="inputPassword">비밀번호</label>
                             </div>
+                            <span th:if="${secondaryAuth}">
+                                <p id="secondaryCheck" class="alert alert-info">메일함의 인증번호를 입력해주세요.</p>
+                            </span>
                             <div class="form-floating mb-3" th:if="${secondaryAuth}">   <!-- 2차 인증을 요청하는 경우 -->
                                 <input class="form-control" id="email-auth" name="email-auth" type="text" required  />
                                 <label for="email-auth">이메일 인증번호</label>

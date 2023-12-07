@@ -27,10 +27,7 @@ public class SecondaryAuthFilter extends AbstractAuthenticationProcessingFilter 
         String password = request.getParameter("password");
         String emailAuth = request.getParameter("email-auth");
 
-
-        String getCode = secondaryAuthService.getCode();  // 인증번호 가져오기
-
-        if(!getCode.matches(emailAuth))    // 2차 인증 코드와 맞지않다면 로그인에 실패하기 위해 비밀번호를 틀리게 설정
+        if(!secondaryAuthService.checkSecondaryCode(username, emailAuth))    // 2차 인증 코드와 맞지않다면 로그인에 실패하기 위해 비밀번호를 틀리게 설정
             password = password + "!!!!";
 
         UsernamePasswordAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(username.trim(), password);

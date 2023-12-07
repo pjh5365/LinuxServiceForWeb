@@ -74,13 +74,14 @@ public class Mail {
         String path = "/home/pibber/sendmail/";
         String mailFile = "emailAuthCode.txt";
         StringBuilder content = new StringBuilder();
-        content.append("로그인을 위한 2차 인증번호입니다.").append("\n");
-        content.append(code);
+        content.append("pibber 서비스의 로그인을 위한 2차 인증번호입니다.").append("\n\n");
+        content.append(code).append("\n\n");
+        content.append("인증번호는 5분간 유효합니다. \n").append("\n");
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + mailFile));    // 메일을 보내기전에 보낼 내용을 다른 파일에 미리 저장하고
             bufferedWriter.write("To: " + to);
             bufferedWriter.newLine();
-            bufferedWriter.write("Subject: 로그인 2차 인증 번호");
+            bufferedWriter.write("Subject: pibber 서비스의 로그인 2차 인증 번호");
             bufferedWriter.newLine();
             bufferedWriter.newLine();
             bufferedWriter.write(String.valueOf(content));
