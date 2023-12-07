@@ -22,11 +22,13 @@ public class MessageController {
     @MessageMapping("/chat/enter")
     public void enter(ChatMessageDto message) {
         message.setMessage(message.getSender() + " 님이 채팅방에 참여하였습니다.");
+        // TODO: 2023/12/7 채팅 로그에 관한 코드는 여기에서 처리
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);  // 해당 경로로 메시지를 전송한다.
     }
 
     @MessageMapping("/chat/message")
     public void message(ChatMessageDto message) {
+        // TODO: 2023/12/7 채팅 로그에 관한 코드는 여기에서 처리
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 }

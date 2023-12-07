@@ -26,9 +26,12 @@ public class ChatRoomRepository {
         return map.get(roomId);
     }
 
-    public ChatRoomDto createChatRoomDto(String roomName) { // 채팅방 생성
-        ChatRoomDto room = ChatRoomDto.createRoom(roomName);
+    public void createChatRoomDto(String roomName, String creator) { // 채팅방 생성
+        ChatRoomDto room = ChatRoomDto.createRoom(roomName, creator);
         map.put(room.getRoomId(), room);
-        return room;
+    }
+
+    public void DeleteRoomDto(String roomId) {  // 채팅방 삭제하기
+        map.remove(roomId); // 자바에서는 직접 할당해제를 하지않고 해당 레퍼런스를 아무 객체도 참조하지 않는다면 가비지컬렉터가 회수함
     }
 }
