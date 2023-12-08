@@ -41,6 +41,12 @@
                                 <input class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04" value="업로드">
                             </div>
                         </form>
+                        <span th:if="${uploadSuccess}"> <!-- 실패시 넘길 값으로 확인 -->
+                                <p id="uploadSuccess" class="alert alert-primary" th:text="${msg}"></p>
+                        </span>
+                        <span th:if="${uploadFail}"> <!-- 실패시 넘길 값으로 확인 -->
+                                <p id="uploadFail" class="alert alert-danger" th:text="${msg}"></p>
+                        </span>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">파일 리스트</li>
                         </ol>
