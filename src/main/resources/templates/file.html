@@ -51,7 +51,7 @@
                                 <th>삭제하기</th>
                             </tr>
                             <tr th:each="file : ${fileList}">
-                                <th th:text="${file.getFileName()}"></th> <!-- 클릭하면 다운할 수 있도록 처리하기 -->
+                                <th><a th:href="@{/file-download/{fileName}(fileName = ${file.getFileName()})}" th:text="${file.getFileName()}"></a></th> <!-- 클릭하면 다운할 수 있도록 처리하기 -->
                                 <th th:text="${file.getTime()}"></th>
                                 <th th:text="${file.getFileSize()}"></th>
                                 <th>삭제하기</th> <!-- 클릭하면 삭제할 수 있도록 처리하기 -->

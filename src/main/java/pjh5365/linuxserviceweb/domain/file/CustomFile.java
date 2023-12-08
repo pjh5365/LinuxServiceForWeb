@@ -1,12 +1,12 @@
 package pjh5365.linuxserviceweb.domain.file;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.StringTokenizer;
 
 @Slf4j
@@ -111,5 +111,25 @@ public class CustomFile {
             file[i] = new CustomFile(fileSize[i], time[i], fileName[i]);
 
         return file;
+    }
+
+    public void download(String username, String fileName, HttpServletResponse response) throws Exception {
+        File file = new File("/home/pibber/file/" + username + "/" + fileName);
+
+        response.setContentType("application/download");
+        response.setContentLength((int)file.length());
+        response.setHeader("Content-disposition", "attachment;filename=\"" + fileName + "\"");
+
+        try {
+            OutputStream os = response.getOutputStream();
+
+            FileInputStream fis = new FileInputStream(file);
+            FileCopyUtils.copy(fis, os);
+            fis.close();
+            os.close();
+        } catch (Exception e) {
+            log.error("파일 다운로드에 실패했습니다. : {}", e.getMessage());
+            throw new Exception();
+        }
     }
 }
