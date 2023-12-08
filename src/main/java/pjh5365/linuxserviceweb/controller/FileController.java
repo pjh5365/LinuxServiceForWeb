@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import pjh5365.linuxserviceweb.domain.file.CustomFile;
 import pjh5365.linuxserviceweb.service.FileService;
 
+import java.io.IOException;
+
 @Controller
 public class FileController {
 
@@ -43,13 +45,22 @@ public class FileController {
     }
 
     @GetMapping("/file-download/{fileName}")
-    public String fileDownload(@PathVariable String fileName, HttpServletResponse response) {
-
+    public void fileDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
         try {
             fileService.download(SecurityContextHolder.getContext().getAuthentication().getName(), fileName, response);
         } catch (Exception e) {
             // TODO: 2023/12/8 파일 다운로드 실패에 대한 처리
+            response.sendRedirect("/file-list");
         }
+    }
+
+    @GetMapping("/file-delete/{fileName}")
+    public String fileRemove(@PathVariable String fileName) {
+        fileService.delete(SecurityContextHolder.getContext().getAuthentication().getName(), fileName);
+//        if(fileService.delete(SecurityContextHolder.getContext().getAuthentication().getName(), fileName))
+//            // TODO: 2023/12/8 성공
+//        else
+//            // TODO: 2023/12/8 실패
 
         return "redirect:/file-list";
     }

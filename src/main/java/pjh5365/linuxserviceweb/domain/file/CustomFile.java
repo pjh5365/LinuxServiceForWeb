@@ -127,9 +127,16 @@ public class CustomFile {
             FileCopyUtils.copy(fis, os);
             fis.close();
             os.close();
+            log.info("파일 다운로드에 성공하였습니다. {}", fileName);
         } catch (Exception e) {
             log.error("파일 다운로드에 실패했습니다. : {}", e.getMessage());
             throw new Exception();
         }
+    }
+
+    public boolean delete(String username, String fileName) {
+        File file = new File("/home/pibber/file/" + username + "/" + fileName);
+
+        return file.delete();
     }
 }

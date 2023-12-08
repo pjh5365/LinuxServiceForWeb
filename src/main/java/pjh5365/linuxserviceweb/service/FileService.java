@@ -35,4 +35,17 @@ public class FileService {
             throw new Exception();
         }
     }
+
+    public boolean delete(String username, String fileName) {
+        CustomFile customFile = new CustomFile();
+
+        boolean isDeleted = customFile.delete(username, fileName);
+
+        if(isDeleted)
+            log.info("파일 삭제 성공 : {}", fileName);
+        else
+            log.error("파일 삭제 실패 : {}", fileName);
+
+        return isDeleted;
+    }
 }
