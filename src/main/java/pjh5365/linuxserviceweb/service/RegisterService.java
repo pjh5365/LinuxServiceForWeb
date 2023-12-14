@@ -22,8 +22,7 @@ public class RegisterService {
 
     public boolean register(RegisterDto data) {
         UserEntity userEntity = new UserEntity();
-        boolean isRegistered =  userRepository.existsByUsername(data.getUsername()) && userRepository.existsByEmail(data.getEmail());
-
+        boolean isRegistered =  userRepository.existsByUsername(data.getUsername()) || userRepository.existsByEmail(data.getEmail());
         if(isRegistered)    // 회원정보가 이미 존재한다면
             return false;
 
