@@ -1,8 +1,6 @@
 package pjh5365.linuxserviceweb.domain.mail;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
