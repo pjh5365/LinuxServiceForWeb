@@ -19,6 +19,7 @@ public class EmailMessageConsumer {
             bufferedWriter.write("To: " + messageDto.getTo());
             bufferedWriter.newLine();
             bufferedWriter.write("Subject: " + messageDto.getSubject());
+            bufferedWriter.write("Content-type: text/plain; charset=UTF-8");
             bufferedWriter.newLine();
             bufferedWriter.newLine();
             bufferedWriter.write(messageDto.getContent());
