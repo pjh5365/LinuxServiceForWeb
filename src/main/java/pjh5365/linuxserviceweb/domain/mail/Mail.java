@@ -1,6 +1,7 @@
 package pjh5365.linuxserviceweb.domain.mail;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,6 +20,8 @@ public class Mail {
             bufferedWriter.write("To: " + to);
             bufferedWriter.newLine();
             bufferedWriter.write("Subject: " +title);
+            bufferedWriter.newLine();
+            bufferedWriter.write("Content-type: text/plain; charset=UTF-8");
             bufferedWriter.newLine();
             bufferedWriter.newLine();
             bufferedWriter.write(String.valueOf(content));
@@ -82,6 +85,8 @@ public class Mail {
             bufferedWriter.write("To: " + to);
             bufferedWriter.newLine();
             bufferedWriter.write("Subject: pibber 서비스의 로그인 2차 인증 번호");
+            bufferedWriter.newLine();
+            bufferedWriter.write("Content-type: text/plain; charset=UTF-8");
             bufferedWriter.newLine();
             bufferedWriter.newLine();
             bufferedWriter.write(String.valueOf(content));
