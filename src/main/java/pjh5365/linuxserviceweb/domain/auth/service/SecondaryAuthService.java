@@ -3,6 +3,7 @@ package pjh5365.linuxserviceweb.domain.auth.service;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pjh5365.linuxserviceweb.domain.auth.GenerateCode;
 import pjh5365.linuxserviceweb.domain.mail.Mail;
@@ -26,6 +27,7 @@ public class SecondaryAuthService {
         this.userRepository = userRepository;
     }
 
+    @Async("threadPool")    // 쓰레드 풀을 사용하기 위해 설정한 빈을 사용
     public void sendSecondaryAuth(String email) {    // 1. 해당 메서드가 호출되면 코드를 생성하고
         Mail mail = new Mail();
         code = GenerateCode.generate();
