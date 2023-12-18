@@ -31,6 +31,9 @@ dependencies {
     // 채팅을 위한 의존성
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+    // 메시지큐 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

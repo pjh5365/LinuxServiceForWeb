@@ -26,12 +26,8 @@ public class SendMailController {
 
     @PostMapping("/send")
     public String sendMail(@ModelAttribute MailDto mailDto, ModelMap map) {
-        try {
-            sendMailService.sendMail(mailDto.getTo(), mailDto.getTitle(), mailDto.getContent());
-            map.addAttribute("msg", "메일전송에 성공하였습니다. \n메인페이지로 이동합니다.");
-        } catch (Exception e) {
-            map.addAttribute("msg", "메일전송에 실패하여 메인페이지로 이동합니다.");
-        }
+        sendMailService.sendMail(mailDto.getTo(), mailDto.getTitle(), mailDto.getContent());
+        map.addAttribute("msg", "메일전송에 성공하였습니다. \n메인페이지로 이동합니다.");
         return "pageAction";
     }
 }
