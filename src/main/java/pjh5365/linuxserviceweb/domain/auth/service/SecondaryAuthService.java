@@ -29,7 +29,7 @@ public class SecondaryAuthService {
         this.mail = mail;
     }
 
-//    @Async("threadPool")    // 쓰레드 풀을 사용하기 위해 설정한 빈을 사용
+   @Async("threadPool")    // 쓰레드 풀을 사용하기 위해 설정한 빈을 사용
     public void sendSecondaryAuth(String email) {    // 1. 해당 메서드가 호출되면 코드를 생성하고
         code = GenerateCode.generate();
 
