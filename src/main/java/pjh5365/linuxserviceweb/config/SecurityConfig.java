@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
 import pjh5365.linuxserviceweb.domain.auth.CustomAuthenticationProvider;
 import pjh5365.linuxserviceweb.domain.auth.filter.SecondaryAuthFilter;
 import pjh5365.linuxserviceweb.domain.auth.handler.CustomAuthenticationFailureHandler;
@@ -62,7 +64,7 @@ public class SecurityConfig {
                 );
 
 
-        http.csrf((csrf) -> csrf.disable());    // csrf 는 우선 비활성화
+        http.csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));    // csrf 활성화
 
         http.formLogin((auth) -> auth
                 .loginPage("/login"));

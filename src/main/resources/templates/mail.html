@@ -38,6 +38,7 @@
                             <li class="breadcrumb-item active">메일을 받을 사람과 내용을 입력해주세요. 해당 정보는 익명으로 전달됩니다.</li>
                         </ol>
                         <form action="/sendmail/send" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">받는 사람</label>
                                 <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="to" required>

@@ -36,6 +36,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">파일관리</h1>
                         <form id="fileUploadForm" method="post" action="/file-upload" enctype="multipart/form-data">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <div class="input-group mb-3">
                                 <input type="file" class="form-control" id="inputGroupFile04" name="file" required>
                                 <input class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04" value="업로드">
